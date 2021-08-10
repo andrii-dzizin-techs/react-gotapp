@@ -51,7 +51,8 @@ export default class GotService {
       gender: char.gender || 'no info',
       born: char.born || 'no info',
       died: char.died || 'no info',
-      culture: char.culture || 'no info'
+      culture: char.culture || 'no info',
+      charId: +char.url.replace(`${this._apiBase}/characters/`, '') || 12
     }
   }
 
