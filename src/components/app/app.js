@@ -2,23 +2,34 @@ import React, {Component} from 'react';
 import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
-import ItemList from '../itemList';
-import CharDetails from '../charDetails';
+import ErrorMessage from '../errorMessage';
+import CharacterPage from '../characterPage';
 
 export default class App extends Component {
     state = {
-        charView: true
+        randomCharView: true,
+        error: false
+    }
+
+    componentDidCatch() {
+        this.setState({
+            error: true
+        });
     }
 
     onCharToggle = () => {
         this.setState({
-            charView: !this.state.charView
+            randomCharView: !this.state.randomCharView
         })
     }
 
     render() {
-        const {charView} = this.state;
-        const randomChar = charView ? <RandomChar/> : null;
+        const {randomCharView} = this.state;
+        const randomChar = randomCharView ? <RandomChar/> : null;
+
+        if (this.state.error) {
+            return <ErrorMessage/>
+        }
 
         return (
             <> 
@@ -37,14 +48,9 @@ export default class App extends Component {
                             </button>
                         </Col>
                     </Row>
-                    <Row>
-                        <Col md='6'>
-                            <ItemList />
-                        </Col>
-                        <Col md='6'>
-                            <CharDetails />
-                        </Col>
-                    </Row>
+                    <CharacterPage/>
+                    <CharacterPage/>
+                    <CharacterPage/>
                 </Container>
             </>
         );

@@ -19,16 +19,20 @@ const TermSpan = styled.span`
 `;
 
 export default class RandomChar extends Component {
-    constructor() {
-        super();
-        this.updateChar();
-    }
-
     gotService = new GotService()
     state = {
         char: {},
         loading: true,
         error: false
+    }
+
+    componentDidMount() {
+        this.updateChar();
+        this.timerId = setInterval(this.updateChar, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
     }
 
     onCharLoaded = (char) => {
@@ -45,7 +49,7 @@ export default class RandomChar extends Component {
         })
     }
 
-    updateChar() {
+    updateChar = () => {
         const id = Math.floor(Math.random()*140 + 25); // 25-140
         this.gotService.getCharacter(id)
             .then(this.onCharLoaded)
@@ -78,19 +82,19 @@ const View = ({char}) => {
             <ul className="list-group list-group-flush">
                 <li className="list-group-item d-flex justify-content-between">
                     <TermSpan className="term">Gender </TermSpan>
-                    <span>{gender || 'no info'}</span>
+                    <span>{gender}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <TermSpan className="term">Born </TermSpan>
-                    <span>{born || 'no info'}</span>
+                    <span>{born}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <TermSpan>Died </TermSpan>
-                    <span>{died || 'no info'}</span>
+                    <span>{died}</span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between">
                     <TermSpan>Culture </TermSpan>
-                    <span>{culture || 'no info'}</span>
+                    <span>{culture}</span>
                 </li>
             </ul>
         </>

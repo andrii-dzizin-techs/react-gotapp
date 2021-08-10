@@ -47,31 +47,31 @@ export default class GotService {
 
   _transformCharacter(char) {
     return {
-      name: char.name,
-      gender: char.gender,
-      born: char.born,
-      died: char.died,
-      culture: char.culture
+      name: char.name || 'no info',
+      gender: char.gender || 'no info',
+      born: char.born || 'no info',
+      died: char.died || 'no info',
+      culture: char.culture || 'no info'
     }
   }
 
   _transformHouse(house) {
     return {
-      name: house.name,
-      region: house.region,
-      words: house.words,
-      titles: house.titles,
-      overlord: house.overlord,
-      ancestralWeapons: house.ancestralWeapons
+      name: house.name || 'no info',
+      region: house.region || 'no info',
+      words: house.words || 'no info',
+      titles: house.titles || 'no info',
+      overlord: house.overlord || 'no info',
+      ancestralWeapons: house.ancestralWeapons || 'no info'
     }
   }
 
   _transformBook(book) {
     return {
-      name: book.name,
-      numberOfPages: book.numberOfPages,
-      publiser: book.publiser,
-      released: book.released
+      name: book.name || 'no info',
+      numberOfPages: book.numberOfPages || 'no info',
+      publiser: book.publiser || 'no info',
+      released: book.released || 'no info'
     }
   }
 }
