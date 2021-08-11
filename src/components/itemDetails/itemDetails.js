@@ -87,7 +87,7 @@ export default class ItemDetails extends Component {
         const {name} = item;
 
         return (
-            <ItemDetailsBlock className="rounded">
+            <ItemDetailsBlock className="rounded bg-light">
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
                     {React.Children.map(this.props.children, (child) => {
