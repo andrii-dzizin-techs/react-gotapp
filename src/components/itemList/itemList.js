@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import styled from 'styled-components';
-import GotService from '../../services/gotService';
 import Spinner from '../spinner';
 import ErrorMessage from '../errorMessage';
 
@@ -11,22 +10,21 @@ const ItemListBlock = styled.ul`
 `;
 
 export default class ItemList extends Component {
-    gotService = new GotService()
     state = {
-        charList: null,
+        itemList: null,
         error: false
     }
 
     componentDidMount() {
-        this.gotService.getAllCharacters()
-            .then((charList) => {
+        const {getData} = this.props;
+
+        getData()
+            .then((itemList) => {
                 this.setState({
-                    charList
+                    itemList
                 })
             })
             .catch( () => this.onError());
-
-        // this.foo.bar = 0;
     }
 
     componentDidCatch() {
@@ -37,20 +35,23 @@ export default class ItemList extends Component {
 
     onError(){
         this.setState({
-            char: null,
+            itemList: null,
             error: true
         })
     }
 
     renderItems(arr) {
         return arr.map((item, i) => {
+            const {id} = item;
+            const label = this.props.renderItem(item);
+
             return (
                 <li 
-                    key={i + item.charId} 
+                    key={i + id} 
                     className="list-group-item"
-                    onClick={() => this.props.onCharSelected(item.charId)}
+                    onClick={() => this.props.onItemSelected(id)}
                 >
-                    {item.name}
+                    {label}
                 </li>
             )
         });
@@ -61,13 +62,13 @@ export default class ItemList extends Component {
             return <ErrorMessage/>
         }
 
-        const {charList} = this.state;
+        const {itemList} = this.state;
 
-        if (!charList) {
+        if (!itemList) {
             return <Spinner/>
         }
 
-        const items = this.renderItems(charList);
+        const items = this.renderItems(itemList);
 
         return (
             <ItemListBlock className="list-group">

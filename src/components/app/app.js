@@ -3,9 +3,13 @@ import {Col, Row, Container} from 'reactstrap';
 import Header from '../header';
 import RandomChar from '../randomChar';
 import ErrorMessage from '../errorMessage';
-import CharacterPage from '../characterPage';
+import CharacterPage from '../../pages/characterPage';
+import BookPage from '../../pages/bookPage/';
+import HousePage from '../../pages/housePage';
+import GotService from '../../services/gotService';
 
 export default class App extends Component {
+    gotService = new GotService();
     state = {
         randomCharView: true,
         error: false
@@ -49,8 +53,8 @@ export default class App extends Component {
                         </Col>
                     </Row>
                     <CharacterPage/>
-                    {/* <CharacterPage/>
-                    <CharacterPage/> */}
+                    <BookPage/>
+                    <HousePage/>
                 </Container>
             </>
         );
