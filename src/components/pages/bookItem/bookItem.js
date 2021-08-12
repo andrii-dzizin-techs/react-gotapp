@@ -1,20 +1,20 @@
-import React, {Component} from 'react';
+import React from 'react';
 import GotService from '../../../services/gotService';
 import ItemDetails, {Field} from '../../itemDetails';
 
-export default class BookItem extends Component {
-  gotService = new GotService();
+function BookItem({bookId}) {
+  const gotService = new GotService();
 
-  render() {
-    return (
-      <ItemDetails 
-        itemId={this.props.bookId}
-        getData={this.gotService.getBook}
-      >
-        <Field field='numberOfPages' label='Number of pages' />
-        <Field field='publisher' label='Publisher' />
-        <Field field='released' label='Released' />
-      </ItemDetails>
-    )
-  }
+  return (
+    <ItemDetails 
+      itemId={bookId}
+      getData={gotService.getBook}
+    >
+      <Field field='numberOfPages' label='Number of pages' />
+      <Field field='publisher' label='Publisher' />
+      <Field field='released' label='Released' />
+    </ItemDetails>
+  )
 }
+
+export default BookItem;

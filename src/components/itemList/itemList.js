@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import Spinner from '../spinner';
+import ErrorMessage from '../errorMessage';
 
 const ItemListBlock = styled.ul`
     .list-group-item {
@@ -10,12 +11,14 @@ const ItemListBlock = styled.ul`
 
 function ItemList({getData, onItemSelected, renderItem}) {
     const [itemList, updateList] = useState([]);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         getData()
             .then((data) => {
                 updateList(data);
             })
+            .catch(onError);
     }, []);
 
     function renderItems(arr) {
@@ -33,6 +36,14 @@ function ItemList({getData, onItemSelected, renderItem}) {
                 </li>
             )
         });
+    }
+
+    function onError() {
+        setError(true);
+    }
+
+    if (error) {
+        return <ErrorMessage/>;
     }
 
     if (!itemList) {
