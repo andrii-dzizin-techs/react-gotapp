@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
-import ErrorMessage from '../errorMessage';
+// import ErrorMessage from '../errorMessage';
 
 const ItemDetailsBlock = styled.div`
     background-color: #fff;
@@ -29,72 +29,40 @@ const Field = ({item, field, label}) => {
 
 export {Field};
 
-export default class ItemDetails extends Component {
-    state = {
-        item: null,
-        error: false
-    }
+function ItemDetails({itemId, getData, children}) {
+    const [item, setItem] = useState(null);
 
-    componentDidMount() {
-        this.updateItem();
-    }
+    useEffect(() => {
+        updateItem();
+    }, [itemId]);
 
-    componentDidUpdate(prevProps) {
-        if (this.props.itemId !== prevProps.itemId) {
-            this.updateItem();
-        }
-    }
-
-    componentDidCatch() {
-        this.setState({
-            error: true
-        });
-    }
-
-    updateItem() {
-        const {itemId, getData} = this.props;
-
+    function updateItem() {
         if (!itemId) {
             return;
         }
 
         getData(itemId)
             .then((item) => {
-                this.setState({
-                    item
-                });
-            })
-            .catch( () => this.onError());
+                setItem(item);
+            });
     }
 
-    onError(){
-        this.setState({
-            item: null,
-            error: true
-        })
+    if (!item) {
+        return <SelectErrorBlock>Please select an item</SelectErrorBlock>
     }
 
-    render() {
-        if (this.state.error) {
-            return <ErrorMessage/>
-        }
+    const {name} = item;
 
-        if (!this.state.item) {
-            return <SelectErrorBlock>Please select an item</SelectErrorBlock>
-        }
-
-        const {item} = this.state;
-        const {name} = item;
-
-        return (
-            <ItemDetailsBlock className="rounded bg-light">
-                <h4>{name}</h4>
-                <ul className="list-group list-group-flush">
-                    {React.Children.map(this.props.children, (child) => {
-                        return React.cloneElement(child, {item})
-                    })}
-                </ul>
-            </ItemDetailsBlock>
-        );
-    }
+    return (
+        <ItemDetailsBlock className="rounded bg-light">
+            <h4>{name}</h4>
+            <ul className="list-group list-group-flush">
+                {React.Children.map(children, (child) => {
+                    return React.cloneElement(child, {item})
+                })}
+            </ul>
+        </ItemDetailsBlock>
+    );
 }
+
+export default ItemDetails;
