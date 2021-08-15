@@ -10,7 +10,7 @@ import BookPage from '../pages/bookPage';
 import BookItem from '../pages/bookItem';
 import HousePage from '../pages/housePage';
 import GotService from '../../services/gotService';
-import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch, Link, useRouteMatch, useParams} from 'react-router-dom';
 import NotFound from '../notFound';
 
 const AppBlock = styled.div`
@@ -95,6 +95,8 @@ export default class App extends Component {
                                     return <BookItem bookId={id} />
                                 }
                             } />
+                            {/* <Route path="/test" component={TestV5} /> */}
+                            <Route path="/:category" component={TestV5} />
                             <Route path='/*' exact component={NotFound} />
                         </Switch>
                     </Container>
@@ -103,3 +105,46 @@ export default class App extends Component {
         );
     }
 };
+
+
+
+function TestV5() {
+    let match = useRouteMatch();
+
+    let { category } = useParams();
+
+    if (category !== 'test') {
+        return <h3 className="text-white text-center">NOT 'TEST'! <br/> Current category {category}</h3>
+    }
+
+    return (
+        <div>
+            <nav>
+                <Link to={`${match.url}/me`} className="btn btn-link text-white">Test me</Link>
+            </nav>
+
+            <Switch>
+                <Route path={`${match.path}/me`}>
+                    <div className="container text-white">
+                        <h1>Test me</h1>
+                        <Link to={match.url}>Test home</Link>
+                        <br/>
+                        <Link to={`${match.url}/profile`}>Profile (test)</Link>
+                        <br/>
+                        <Link to='/'>HOME</Link>
+                    </div>
+                </Route>
+                <Route path={`${match.path}/profile`}>
+                    <div className="container text-white">
+                        <h1>Test profile</h1>
+                        <Link to={match.url}>Test home</Link>
+                        <br/>
+                        <Link to={`${match.url}/me`}>Me (test)</Link>
+                        <br/>
+                        <Link to='/'>HOME</Link>
+                    </div>
+                </Route>
+            </Switch>
+        </div>
+    );
+}

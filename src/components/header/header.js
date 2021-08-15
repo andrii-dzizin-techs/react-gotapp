@@ -45,6 +45,12 @@ const Header = () => {
                 <li>
                     <Link to='/books/'>Books</Link>   
                 </li>
+                <li>
+                    <Link to='/test'>Test</Link>   
+                </li>
+                <li>
+                    <Link to='/sec-cat'>2 category</Link>   
+                </li>
             </HeaderLinks>
         </HeaderBlock>
     );
